@@ -34,8 +34,8 @@ code_reviewer_agent = LlmAgent(
 code_refactor_agent = LlmAgent(
     model='gemini-2.5-flash',
     name='RefacThor',
-    instruction="""You are a Python Code Reviewer.
-    Review {reviewed_code}
+    instruction="""You are a Python Code Refactor.
+    Refact {reviewed_code}
     """,
     description="Refact Python code "
 )
