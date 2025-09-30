@@ -16,7 +16,7 @@ TARGET_FOLDER_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "/
 async def main():
     print("Initializing agent...")
     root_agent = LlmAgent(
-        model='gemini-2.0-flash',
+        model='gemini-2.5-flash',
     name='filesystem_assistant_agent',
     instruction='Help the user manage their files. You can list files, read files, etc.',
         tools=[
