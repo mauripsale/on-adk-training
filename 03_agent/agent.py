@@ -7,13 +7,13 @@ from google.adk.tools import google_search
 from google.genai.types import UserContent, Part
 import google.generativeai as genai
 
-# Carica le variabili d'ambiente dal file .env
+# Load environment variables from the .env file
 load_dotenv()
 
-# Configura l'API key di Google AI
+# Configure the Google AI API key
 api_key = os.getenv("GOOGLE_API_KEY")
 if not api_key:
-    raise ValueError("GOOGLE_API_KEY non trovata nel file .env")
+    raise ValueError("GOOGLE_API_KEY not found in the .env file")
 genai.configure(api_key=api_key)
 
 root_agent = Agent(
@@ -27,23 +27,23 @@ root_agent = Agent(
 runner = InMemoryRunner(agent=root_agent)
 
 async def main():
-    # La creazione della sessione è asincrona e va fatta qui
+    # The session creation is asynchronous and must be done here
     session = await runner.session_service.create_session(
         app_name=runner.app_name,
         user_id="test_user"
     )
-    print("Chat iniziata. Scrivi 'bye', 'quit' o 'exit' per terminare.")
+    print("Chat started. Type 'bye', 'quit' or 'exit' to end.")
 
     while True:
         user_input = input("Prompt: ")
         if user_input.lower() in ["bye", "quit", "exit"]:
-            print("Chat terminata.")
+            print("Chat ended.")
             break
 
         content = UserContent(parts=[Part(text=user_input)])
 
         print("Gemini: ", end="", flush=True)
-        # L'esecuzione del runner è un generatore asincrono
+        # The runner execution is an asynchronous generator
         async for event in runner.run_async(
             user_id=session.user_id,
             session_id=session.id,
@@ -51,7 +51,7 @@ async def main():
         ):
             for part in event.content.parts:
                 print(part.text, end="", flush=True)
-        print("\n") # Aggiunge una nuova riga dopo la risposta completa
+        print("\n") # Adds a new line after the complete response
 
 if __name__ == '__main__':
     asyncio.run(main())
