@@ -1,1 +1,0 @@
-# on-adk-training
